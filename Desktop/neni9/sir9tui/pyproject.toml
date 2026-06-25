@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sir9tui"
+version = "1.0.0"
+description = "sir9tui — AI STEM Tutor by Nenifix"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Godwin Appiah (Neni)", email = "info@nenifix.com"}
+]
+requires-python = ">=3.11"
+dependencies = [
+    "textual>=0.62",
+    "rich>=13.3.3",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Topic :: Education",
+    "Topic :: Scientific/Engineering",
+]
+
+[project.scripts]
+sir9tui = "sir9tui.main:main"
+
+[tool.setuptools.packages.find]
+include = ["sir9tui*"]
