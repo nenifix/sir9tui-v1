@@ -216,9 +216,33 @@ class Curriculum:
             self.modules.clear()
             self.questions_by_module.clear()
             for module_data in curriculum_data.get("modules", []):
-                module = Module(**module_data)
+                raw_questions = module_data.get("questions", [])
+                questions = [
+                    Question(
+                        id=q.get("id"),
+                        module_id=q.get("module_id", module_data.get("id")),
+                        question_text=q.get("question_text", ""),
+                        options=list(q.get("options", [])),
+                        correct_option=q.get("correct_option", 0),
+                        explanation=q.get("explanation", ""),
+                        difficulty=q.get("difficulty", "medium"),
+                        learning_objective=q.get("learning_objective", ""),
+                    )
+                    for q in raw_questions
+                ]
+                module = Module(
+                    id=module_data.get("id"),
+                    title=module_data.get("title", "Untitled"),
+                    description=module_data.get("description", ""),
+                    difficulty=module_data.get("difficulty", "beginner"),
+                    estimated_time_minutes=module_data.get("estimated_time_minutes", 30),
+                    learning_objectives=list(module_data.get("learning_objectives", [])),
+                    questions=questions,
+                    content_text=module_data.get("content_text", ""),
+                    related_concepts=list(module_data.get("related_concepts", [])),
+                )
                 self.modules[module.id] = module
-                self.questions_by_module[module.id] = module.questions
+                self.questions_by_module[module.id] = questions
         except Exception as e:
             print(f"Error loading curriculum: {e}")
             self.modules = {}
