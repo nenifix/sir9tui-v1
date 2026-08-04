@@ -4,12 +4,17 @@ color 0B
 cls
 echo.
 echo   ╔═══════════════════════════════════════════════╗
-echo   ║   sir9tui — AI STEM Tutor by Nenifix         ║
-echo   ║   Press 'q' to quit                            ║
+echo   ║   sir9tui — AI STEM Tutor by Nenifix          ║
+echo   ║   Press 'q' to quit                           ║
 echo   ╚═══════════════════════════════════════════════╝
 echo.
-cd /d C:\Users\ai9\Desktop\neni9\sir9tui
-C:\Users\ai9\AppData\Local\Microsoft\WindowsApps\python3.exe app.py
+cd /d "%~dp0"
+where python3 >nul 2>nul
+if %errorlevel%==0 (
+    python3 -m sir9tui.main
+) else (
+    python -m sir9tui.main
+)
 echo.
 echo sir9tui closed.
 pause

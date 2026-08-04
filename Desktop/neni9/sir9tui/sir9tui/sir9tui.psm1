@@ -1,21 +1,29 @@
-# sir9tui PowerShell module
+# sir9tui PowerShell module — Built by Nenifix
 # Place in: Documents\PowerShell\Modules\sir9tui\sir9tui.psm1
+# Portable: uses the repo's own python (portable bundle) or system python3.
 
 function sir9tui {
     [CmdletBinding()]
     param()
 
-    $appDir = 'C:\Users\ai9\Desktop\neni9\sir9tui'
-    $python = 'C:\Users\ai9\AppData\Local\Microsoft\WindowsApps\python3.exe'
+    # Prefer a bundled portable python in the same folder tree.
+    $here = $PSScriptRoot
+    $candidates = @(
+        (Join-Path $here 'python.exe'),
+        (Join-Path (Split-Path $here -Parent) 'python.exe'),
+        (Get-Command python3 -ErrorAction SilentlyContinue).Source,
+        (Get-Command python -ErrorAction SilentlyContinue).Source
+    )
 
-    if (-not (Test-Path $appDir)) {
-        Write-Error "sir9tui not found at $appDir"
+    $py = $candidates | Where-Object { $_ -and (Test-Path $_) } | Select-Object -First 1
+    if (-not $py) {
+        Write-Error "sir9tui needs a Python interpreter. Install Python 3.11+ from python.org"
         return
     }
 
-    Push-Location $appDir
+    Push-Location (Split-Path $here -Parent)  # repo root: Desktop/neni9/sir9tui
     try {
-        & $python app.py
+        & $py -m sir9tui.main
     } finally {
         Pop-Location
     }
