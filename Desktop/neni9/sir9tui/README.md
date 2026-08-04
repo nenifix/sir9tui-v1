@@ -1,8 +1,10 @@
-# sir9tui — AI STEM Tutor
+# sir9tui — Offline AI STEM Tutor
 
 > **Built by Godwin Appiah (Neni), Founder of Nenifix**
 >
-> An offline AI-powered terminal tutor that teaches students STEM concepts using a local LLM via LM Studio.
+> A terminal AI STEM tutor for students. Fully offline-first: it teaches with built-in
+> answers when no AI server is present, and unlocks live AI tutoring the moment an
+> LM Studio / OpenAI-compatible server is running on `127.0.0.1:1234`.
 
 ---
 
@@ -17,16 +19,30 @@ Then launch:
 sir9tui
 ```
 
+No LM Studio? It still works — sir9 falls back to built-in offline answers.
+
 ---
 
-## Features
+## Portable Windows build
+
+A ready-to-run **portable Windows 10/11 ZIP** (bundled Python, no install needed):
+
+1. Download `sir9tui-portable-win64-v1.1.0.zip` (see Releases)
+2. Extract anywhere, e.g. `C:\sir9tui`
+3. Double-click `sir9tui.cmd` — done.
+
+---
+
+## Features (v1.1.0)
 
 - **Interactive Terminal UI** — Clean, navigable interface built with Textual
-- **AI-Powered Learning** — Connects to LM Studio for intelligent tutoring responses
-- **Quiz Engine** — Built-in curriculum with multiple-choice questions
+- **AI-Powered Learning (optional)** — Connects to LM Studio for intelligent tutoring responses
+- **Offline Mode (default)** — Built-in local answer bank when no AI server is running
+- **Quiz Engine** — Real multiple-choice flow with scoring; answer by pressing `1-4`
 - **Progress Tracking** — SQLite database tracks user scores, accuracy, and completion
-- **Persistent Storage** — JSON files for settings, session history, and curriculum
-- **Offline-First** — Works without internet (LM Studio runs locally)
+- **Persistent Storage** — JSON files for settings, session history, curriculum
+- **Working Settings + Modules screens** (were stubs in v1.0.0)
+- **Portable launchers** — `.cmd` / `.bat` / `.ps1` use relative paths (no hardcoded machine paths)
 
 ---
 
@@ -37,7 +53,7 @@ sir9tui
 │              sir9 — Built by Nenifix                     │
 │                                                         │
 │   Welcome to sir9 - AI STEM Tutor                       │
-│   Built by Nenifix                                      │
+│   Built by Nenifix · offline-first                      │
 │                                                         │
 │  ┌───────────────────────────────────────────────────┐  │
 │  │ # Introduction to STEM                            │  │
@@ -46,9 +62,9 @@ sir9tui
 │  │ Technology, Engineering, and Mathematics...       │  │
 │  └───────────────────────────────────────────────────┘  │
 │                                                         │
-│  [ Start Learning ]  [ View Quiz ]  [ My Progress ]     │
+│  [ Start Learning ]  [ View Quiz ]  [ Modules ]          │
 │                                                         │
-│  Q  Quit  S  Settings                                   │
+│  Q  Quit  S  Settings  M  Modules  1-4  Answer          │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -67,7 +83,7 @@ Verify installation:
 python --version
 ```
 
-### 2. LM Studio
+### 2. LM Studio (optional)
 
 Download from [lmstudio.ai](https://lmstudio.ai/)
 
@@ -84,43 +100,38 @@ curl http://127.0.0.1:1234/v1/models
 
 ## Installation
 
-### Option 1: Extract and Run (Simplest)
+### Option 1: pip install (Recommended)
+
+```bash
+pip install git+https://github.com/nenifix/sir9tui-v1.git
+sir9tui
+```
+
+### Option 2: Extract and Run
 
 1. **Extract** the ZIP file to any folder (e.g., `C:\sir9tui`)
-
 2. **Install dependencies:**
 ```bash
 cd C:\sir9tui
-pip install textual
+pip install textual rich
 ```
-
 3. **Launch the app:**
 ```bash
-python app.py
+python -m sir9tui.main
 ```
 
-### Option 2: Using the Launcher (Windows)
+### Option 3: Portable Windows ZIP
 
-1. **Extract** the ZIP file
+See **Portable Windows build** above — bundled Python, just double-click `sir9tui.cmd`.
 
-2. **Double-click** `sir9tui.bat` on your Desktop
+### Option 4: PowerShell Module
 
-3. Or open CMD/PowerShell and run:
-```bash
-C:\path\to\sir9tui\sir9tui.bat
-```
-
-### Option 3: PowerShell Module (Recommended)
-
-1. **Extract** the ZIP file to `C:\sir9tui`
-
-2. **Copy the module** to your PowerShell modules folder:
+1. Copy the module to your PowerShell modules folder:
 ```powershell
 $moduleDir = "$env:USERPROFILE\Documents\PowerShell\Modules\sir9tui"
-Copy-Item "C:\sir9tui\sir9tui.psm1" -Destination "$moduleDir\sir9tui.psm1"
+Copy-Item "sir9tui.psm1" -Destination "$moduleDir\sir9tui.psm1"
 ```
-
-3. **Launch from any PowerShell window:**
+2. Launch from any PowerShell window:
 ```powershell
 Import-Module sir9tui
 sir9tui
@@ -135,26 +146,26 @@ sir9tui
 | Key | Action |
 |-----|--------|
 | `q` | Quit the application |
-| `s` | Open Settings (login, theme) |
+| `s` | Open Settings |
+| `m` | List modules (type a module number to open) |
+| `1-4` | Answer quiz options |
 | Mouse | Click buttons and navigate |
 
 ### First Launch
 
-1. **Start LM Studio** and ensure a model is loaded
-2. **Launch sir9tui:**
-   ```bash
-   python app.py
-   ```
-3. **Press `s`** for settings and enter a username
-4. **Click "Start Learning"** to get AI explanations from LM Studio
-5. **Click "View Quiz"** to test your knowledge
-6. **Click "My Progress"** to see your stats
+1. Launch sir9tui (`sir9tui` or double-click `sir9tui.cmd`)
+2. **Click "Start Learning"** to get an explanation (AI if LM Studio is up, offline otherwise)
+3. **Click "View Quiz"** to test your knowledge — answer with keys `1-4`
+4. **Press `m`** to browse modules; **`s`** for settings/status
 
-### Settings
+### AI Mode (optional)
 
-- **Username** — Creates a user profile for progress tracking
-- **Theme** — Dark/Light mode (stored in JSON)
-- **Language** — Interface language preference
+1. Install LM Studio from [lmstudio.ai](https://lmstudio.ai)
+2. Load a model (e.g. `liquid/lfm2.5-1.2b`, `qwen3-1.7b`)
+3. Start the local server (default port 1234)
+4. Run sir9tui — it auto-detects the server and uses live AI answers.
+
+Without LM Studio, sir9 uses its built-in offline answer bank.
 
 ---
 
@@ -163,7 +174,7 @@ sir9tui
 ```
 ┌─────────────────────────────────────────────┐
 │              sir9tui (Textual TUI)           │
-│              app.py + app.tcss               │
+│              main.py + app.tcss             │
 ├─────────────────────────────────────────────┤
 │  ask_lm_studio()  │  Curriculum  │  Database │
 │  (HTTP async)     │  (JSON)      │  (SQLite) │
@@ -197,17 +208,17 @@ sir9tui
 
 ```
 sir9tui/
-├── app.py              # Main TUI application
-├── app.tcss            # Terminal CSS styles
-├── curriculum.py       # Quiz engine + JSON store + Sir9JSONStore
-├── database.py         # SQLite database layer
-├── app.tcss            # UI styling
-├── sir9tui.bat         # Windows batch launcher
-├── sir9tui.ps1         # PowerShell launcher script
-├── sir9tui.psm1        # PowerShell module
-├── sir9tui.cmd         # Alternative CMD launcher
+├── main.py              # Main TUI application (canonical entry)
+├── app.py               # Backward-compatible alias for main.py
+├── app.tcss             # Terminal CSS styles
+├── curriculum.py        # Quiz engine + JSON store + Sir9JSONStore
+├── database.py          # SQLite database layer
+├── sir9tui.bat          # Windows batch launcher
+├── sir9tui.ps1          # PowerShell launcher script
+├── sir9tui.psm1         # PowerShell module
+├── sir9tui.cmd          # Alternative CMD launcher
 ├── TECH_STACK_REPORT.md # Technical documentation
-└── README.md           # This file
+└── README.md            # This file
 ```
 
 ---
@@ -216,7 +227,7 @@ sir9tui/
 
 ### "Textual not found"
 ```bash
-pip install textual
+pip install textual rich
 ```
 
 ### "LM Studio not responding"

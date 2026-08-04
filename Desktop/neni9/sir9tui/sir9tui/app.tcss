@@ -45,6 +45,16 @@ Screen {
     min-width: 20;
 }
 
+#btn_row {
+    height: auto;
+    align-horizontal: center;
+    margin: 1 2;
+}
+
+#btn_row Button {
+    margin: 0 1;
+}
+
 #status_bar {
     dock: bottom;
     width: 100%;

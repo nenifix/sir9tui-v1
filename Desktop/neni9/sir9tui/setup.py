@@ -2,8 +2,8 @@ from setuptools import setup, find_packages
 
 setup(
     name="sir9tui",
-    version="1.0.0",
-    description="sir9tui — AI STEM Tutor by Nenifix",
+    version="1.1.0",
+    description="sir9tui — Offline AI STEM Tutor by Nenifix. Textual TUI, quiz engine, progress tracking, LM Studio or offline mode.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     author="Godwin Appiah (Neni)",
@@ -19,7 +19,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "sir9tui=sir9tui.app:main",
+            "sir9tui=sir9tui.main:main",
         ],
     },
     classifiers=[

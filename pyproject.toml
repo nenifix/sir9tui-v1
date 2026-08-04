@@ -16,14 +16,13 @@ dependencies = [
     "textual>=0.62",
     "rich>=13.3.3",
 ]
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "Topic :: Education",
-    "Topic :: Scientific/Engineering",
-]
 
 [project.scripts]
 sir9tui = "sir9tui.main:main"
 
 [tool.setuptools.packages.find]
 include = ["sir9tui*"]
+where = ["Desktop/neni9/sir9tui"]
+
+[tool.setuptools.package-data]
+"*" = ["*.tcss", "*.json", "*.db"]
